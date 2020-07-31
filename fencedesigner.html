@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Fence Designer</title>
+		<style>
+			.designerdiv {
+				width: 530px;
+				height: 600px;
+				margin: auto;
+				padding: 10px;
+				background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAAB50RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNS4xqx9I6wAAABZ0RVh0Q3JlYXRpb24gVGltZQAwMS8yMS8xMRTK2QYAAAPCSURBVEiJhZZ7UxpJFMV/PTOAvORh1Jhsxe//sbZqd6NJFFFRQJq7f9zTGRLpDlXUDFSfPvdx7iNAdQ5UwLOeU+Ab8BF4BZZmccORTwj1AOgAG2AG7IFa9+wBM4tfj2EbfZ+AINAPYA4sBMyRXsowRLIHXkQ6Ap7N4mMGe11D2IqwASa6YAVszeJrBtjX2QdgJ0PfgAHQBx7M4lMGe5E8vhAokRgwMovfMsCJCG6BoTx81XcDBLP4nMFeKiqbSv+l/AJUBdIZcArc4bnd0qapD4wLpOfimQP9Cg/zTsCFWbzLAAd47r7jQqqAHi7CCpiaxZsMdg4sgQ94VPo1hLG82BVIZ8AJ0MU1MMTT85KeZvE+g53Sqn2P62JSAY94yeSs7eJhNf2117On95lZ3GawA1yEO51HTt7UEE7M4rJAmrxd4gKaA19F2ino4RSIeAqHeKUArIEmmNkxHCHUY1y9K+BMl9QiPQPINQeVTAePZpSxNS7KCDRNBjgSsCsvIx6uJKxY8HQkY/u46FKEKjzMb2Zx8c5jKfAVr2/DSwC918C6UDJ/6fyGtpnsaXO8NYu34A3kEHiN57LSc4fX6FxHXgukPdpG1Jehb3pWwD6RQts0CKG+0msjwJsuOMX7N4XwftHZgAupp7tf8HRVZvHfQ0wl4Gd59yJgI3DEu1Mwi39nSGciXMvYvTBDPOTRLP73DgfVJx1YAWMRPh+EaFWo0xHtGBzK+I2i9CCDH45hK1y9IxH15eVERuwKpHNh98L9AO6FX+It9ChpCPUo5XiN99w7fA6Dz9PcaDunHZ9JoCnkAZgUUtMHQg1hpwvWeKg6uOxL3WyAh3YtA8b41tKDoghPdX5SCZTaW4W3wRzpSKSPuJAaYQxXb13YOrp4ShqgkzaQMa7EqgAciGBA2xRSg1gAF4d1+hv2M1oScP0sKjy3j/J0lQGm/M3k6UQRSqNyWsjpNV4lZ3LwBug0eO1OzeI/GeCUtvcGEd4CV/L2oaD8T/y6Fv3ccmoIFBaAS9SfZe1CXjZ4yTSF1IzwtWiGCzYJcgie05cMcCaiJb5rr+ShyfphQb3XuGYmtJMpaaEGtlUG+AXPXY+2mxke3kSai9IQ71onuAAHtGEOeAu9fzePJfsnWTbAc7oWCHye5kSYarw5IAWv8ROgm7T0+1ic0W6SQ1wUY/3+KNKckK5kbI23TkS8RS31ENscAOcHIZnoPU2qS+CmQNqlHRBdPdOY7eCN5Zct9HAspq0h7VFdvHevge9/IAVPyYp2Y0HYt2Ol+j+NgNKFGPr4JAAAAABJRU5ErkJggg==) 0 0 repeat;
+				border-radius: 5px;
+			}
+			.designertable {
+				width: 530px;
+				height: 600px;
+				background: #FCFCFC;
+				border-collapse: collapse;
+				border-spacing: 0px;
+			}
+			.designertable * {
+				margin: 0px;
+				padding: 0px;
+			}
+			.edit {
+				width: 65px;
+				vertical-align: bottom;
+			}
+			.edit ul {
+				list-style-type: none;
+				width: 65px;
+			}
+			.column {
+				vertical-align: bottom;
+				width: 20px;
+			}
+			.fence {
+				width: 360px;
+				vertical-align: bottom;
+			}
+			.fence ul {
+				list-style-type: none;
+				width: 360px;
+			}
+			.editdiv {
+				position: relative;
+				float:left;
+				top: 15px;
+				left: 10px;
+				width: 24px;
+				height: 24px;
+				background: url(./edit.png) no-repeat;
+				cursor: pointer;
+			}
+			.rotate {
+				position: relative;
+				top: 12px;
+				left: 35px;
+				width: 24px;
+				height: 24px;
+				cursor: pointer;
+				background: url(./rotate.png) no-repeat;
+			}
+			.columndiv {
+				width: 20px;
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUBAMAAAB/pwA+AAAAMFBMVEWenp6cnJuampqVlZSYmJiTk5KgoKCioqKRkZCGhoaXl5ZycnJ5eXmIiIilpaV3d3d/+AbtAAAAsElEQVQI1zXLsQqCUBTG8U8ig6ZzpKIxr0trheDq7RLRqASOLukDRLm1tPkKOgU+lUFLU0/RMWn7ncP/w/Zhmpgmu3eFzYEcQ9ZM2HiUkp2OPhUCjzLk10KYxIscdn47twjiEBayQujfe15aHEsXlp13TEomSHySoNQuyzUURmy00jR4wV9ZJhSOnz2ZMag7qm447MhKhOmfNubCtYTI0h+VEP1Xu8TMS2FktKscs6+/L3ExNiqXpd4AAAAASUVORK5CYII=);
+				background-repeat: repeat-y;
+			}
+			.columndivtop {
+				background-color: #FCFCFC;
+				background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAMAAAAFH/x6AAAAeFBMVEW+vr62tra/v7+7u7q4uLjExMTCwsLy8vHW1tbLzMvJycnHyMfGx8WxsbDv7++vr67s7OzY2NjPz8+8vLurq6qmpqb29vTb29rS0tLBwcG0tbOtra2Kiord3typqamGhoZ5eXlvb2/j4+OoqKiioqKXl5eCgoJ0dHSbW3cPAAAAkUlEQVQI1x3MRRbDMBRDUX0zxiGHsbj/Hdand6aBHoweBl3pqq6rSuu6LuOBMO7j2DRmmoxpmsnsppVYpLVeBomCsY4prC/03Ac1q5mLgkiI+N6QRPDOO6cYY+CAWLcLsfOttW3rgwwKDHScNyKX1jnrZGmAo6P8uZGoA8qR/jin5/lFH5eYYupzzseaiJZ+u34xfwiz6K47GwAAAABJRU5ErkJggg==);
+				cursor: ns-resize;
+				height: 9px;
+				width: 20px;
+			}
+			.add {
+				cursor: pointer;
+			}
+			.panel {
+				cursor: move;
+				background-repeat: no-repeat;
+				background-size: 360px;
+			}
+			.delete {
+				position: relative;
+				top: 13px;
+				left: 25px;
+				width: 24px;
+				height: 24px;
+				cursor: pointer;
+				background: url(./delete.png) no-repeat;
+			}
+			.heights {
+				position: absolute;
+				top: 25px;
+				width: 530px;
+				height: 30px;
+				text-align: center;
+			}
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script>
+			var designer = (function () {
+				'use strict';
+				var origY = 0,
+					dragging = false,
+					panelsList, editList, deleteList, currentPanelItem, movingDivPanel, panelsTops, panelsBottoms,
+					heightsConversion = {
+						'10in': '45px',
+						'20in': '90px',
+						'30in': '135px',
+						'40in': '180px',
+						'50in': '225px',
+						'5ft': '270px',
+						'6ft': '315px',
+						'6ft7in': '360px',
+						'7ft6in': '405px',
+						'8ft4in': '450px'
+					};
+				
+				var changeHeight = function (h) {
+					$('.columndiv').each(function (index, elem) { 
+						elem.style.height = heightsConversion[h.value];
+					});
+				};
+				
+				var mouseMoveFunc = function (e) {
+					var newHeight,
+						table = $('.designertable'),
+						dropDown = $('#availableHeights'),
+						options = $('#availableHeights option'),
+						elem = $('#availableHeights option:selected'), 
+						shift = table.offset().top + table.height() - e.pageY,
+						newIdx = Math.round(shift / 45) - 1,
+						origIdx = elem.index();
+						
+					if (newIdx >= 0 && newIdx <= 9 && newIdx != origIdx) {
+						elem.removeAttr('selected');
+						$(options[newIdx]).attr('selected', 'selected');
+						dropDown.val($(options[newIdx]).attr('value'));
+						newHeight = heightsConversion[dropDown.val()];
+						$('.columndiv').each(function (index, el) { 
+							el.style.height = newHeight;
+						});
+					}
+				};
+				
+				var mouseMovePanelFunc = function (e) {
+					var divTop, divBottom,
+						delta = origY - e.pageY,
+						idx = currentPanelItem.index(),
+						offSet = movingDivPanel.offset();
+
+					offSet.top -= delta;
+					divTop = offSet.top;
+					divBottom = divTop + movingDivPanel.height();					
+					movingDivPanel.css('top', offSet.top + 'px');
+					origY = e.pageY;
+					for(var i = 0; i < panelsTops.length; i += 1) {
+						if (delta > 0 && i < idx && panelsTops[i] > divTop) {
+							$(panelsList[i]).insertAfter(currentPanelItem);
+							$(editList[i]).insertAfter($(editList[idx]));
+							$(deleteList[i]).insertAfter($(deleteList[idx]));
+							createMovablePanel(currentPanelItem.get());
+							break;
+						}
+						else if (delta < 0 && i > idx && panelsBottoms[i] < divBottom){
+							currentPanelItem.insertAfter($(panelsList[i]));
+							$(editList[idx]).insertAfter($(editList[i]));
+							$(deleteList[idx]).insertAfter($(deleteList[i]));
+							createMovablePanel(currentPanelItem.get());
+							break;
+						}
+					}
+				};
+				
+				var mouseDownFunc = function (e) {
+					e.preventDefault();
+					dragging = true;
+					origY = e.pageY;
+				};
+				
+				var mouseUpFunc = function (e) {
+					if (dragging) {
+						$(document).unbind('mousemove');
+						dragging = false;
+						if (currentPanelItem) {
+							currentPanelItem.css('opacity', 1);
+							currentPanelItem = null;
+						}
+						if (movingDivPanel) {
+							movingDivPanel.remove();
+							movingDivPanel = null;
+						}
+					}
+				};
+				
+				var addFunc = function () {
+					if ($('#panelList')[0].scrollHeight < 400) {
+						$('#panelList li:first').before('<li class="panel" style="background-image:url(./panel01.png);height:90px;"></li>');
+						$('.panel:first').on('mousedown', function (e) {
+							createMovablePanel(this);
+							mouseDownFunc(e);
+							$(document).mousemove(mouseMovePanelFunc);
+						});
+						$('#editList li:first').before('<li style="height:90px"><div class="editdiv"></div><div class="rotate"></div></li>');
+						$('#editList li:first .editdiv').on('click', function () {
+							editFunc(this);
+						});
+						$('#editList li:first .rotate').on('click', function () {
+							rotateFunc(this);
+						});
+						$('#deleteList li:first').before('<li style="height:90px"><div class="delete"></div></li>');
+						$('#deleteList li:first .delete').on('click', function () {
+							deleteFunc(this);
+						});
+					}
+				};
+				
+				var editFunc = function (elem) {
+					var li = elem.parentElement;
+					console.log("Edit " + $(li).index());
+				};
+				
+				var rotateFunc = function (elem) {
+					var li = elem.parentElement;
+					var idx = $(li).index();
+					var panel = $('#panelList li').get(idx);
+					if (panel.style.transform != 'rotate(180deg)') {
+						panel.style.transform = 'rotate(180deg)';
+					}
+					else {
+						panel.style.transform = '';
+					}
+				};
+				
+				var deleteFunc = function (elem) {
+					var li = elem.parentElement;
+					var idx = $(li).index();
+					if ($('#editList li').length > 1)
+					{
+						$($('#editList li').get(idx)).remove();
+						$($('#panelList li').get(idx)).remove();
+						$($('#deleteList li').get(idx)).remove();
+					}
+				};
+				
+				var createMovablePanel = function (elem) {
+					var divOffset;
+					panelsList = $('.panel');
+					panelsTops = panelsList.map(function (idx, element) {
+						return $(element).offset().top;
+					});
+					panelsBottoms = panelsList.map(function (idx, element) {
+						return $(element).offset().top + $(element).height();
+					});
+					editList = $('#editList li');
+					deleteList = $('#deleteList li');
+					currentPanelItem = $(elem);
+					currentPanelItem.css('opacity', .2);
+					divOffset = currentPanelItem.offset();
+					if (movingDivPanel) {
+						movingDivPanel.remove();
+					}
+					movingDivPanel = $('<div style="position:absolute;width:360px;"></div>');
+					movingDivPanel.css('height', currentPanelItem.css('height'));
+					movingDivPanel.css('top', divOffset.top + 'px');
+					movingDivPanel.css('left', divOffset.left + 'px');
+					movingDivPanel.css('background-image', currentPanelItem.css('background-image'));
+					movingDivPanel.css('background-size', currentPanelItem.css('background-size'));
+					movingDivPanel.css('transform', currentPanelItem.css('transform'));
+					$('.fence').append(movingDivPanel);
+				};
+				
+				var init = function () {
+					$('#availableHeights').on('change', function () { 
+						changeHeight(this); 
+					});
+					
+					$('.columndivtop').on('mousedown', function (e) {
+						mouseDownFunc(e);
+						$(document).mousemove(mouseMoveFunc);
+					});
+					
+					$('.panel').on('mousedown', function (e) {
+						createMovablePanel(this);
+						mouseDownFunc(e);
+						$(document).mousemove(mouseMovePanelFunc);
+					});
+					
+					$(document).mouseup(mouseUpFunc);
+					
+					$('.add').on('click', function () {
+						addFunc();
+					});
+					
+					$('.editdiv').on('click', function () {
+						editFunc(this);
+					});
+					
+					$('.rotate').on('click', function () {
+						rotateFunc(this);
+					});
+					
+					$('.delete').on('click', function () {
+						deleteFunc(this);
+					});
+					
+					$('#availableHeights').trigger('change');
+				};
+				
+				return { init: init };
+			}());
+		</script>
+        <script>
+			$(function() {
+				designer.init();
+			});
+        </script>
+    </head>
+    <body>
+        <div class="designerdiv">
+			<table class="designertable">
+				<tr>
+					<td class="edit">
+						<ul id="editList">
+							<!--li style="height:90px">
+								<div class="editdiv"></div>
+							</li-->
+							<li style="height:45px">
+								<div class="editdiv"></div>
+								<div class="rotate"></div>
+							</li>
+						</ul>
+					</td>
+					<td class="column">
+						<div class="columndiv" style="height:45px">
+							<div class="columndivtop"></div>
+						</div>
+					</td>
+					<td class="fence">
+						<img class="add" alt="add" width="360" height="110" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWgAAABxBAMAAAAKZSQBAAAAHlBMVEUAAABOTk6JiYlNTU1JSUlOTk6JiYlNTU2MjIyHh4eeDXK6AAAACnRSTlMAGRoSCQQPDhQJufnp4wAAAzJJREFUeNrtmz9v2zAQxc8gGbVbhbTILqBBvFVwCq0h6qJrjMTIGmQwmi2CE3j3lq3IEPTjVhRFW/+pqXgH8G2yl5/P744UeUdBQUFBQUFBQQ2pX9vFInu+JjZSt2lcKftJPGSRnU6viIHu4pZeCF4/4o4uCVw3cY++E7QOzItst9suWDgkqiCf1/Z57cwCnI0q7RQMWX2EW7G1DXMDUNlgfyZQRf1Zd4NsEGuOy4EqeEaQEkM2ULn55hsBSqWDCSdT1FCLEedGqKFOm+ZQm00t6hoz1FHTHOohSc5rBsEsILpZ7T4khe7poBVirZatLHwz0PNWqNGWRbOCfKGjDHPdH6QBUzFvelaV0Bd0lMTzh0Uag6Yczh+mSD/RUR+70ALOH7pIQxqHlqXrkZQW7vBAU25+GJCk+et90AJsfVmZJPNBSzBTa7Oz8EFTimVqg+OHXkFtmpQpeD5oa2qCUWQs7YeWUJk4M8XMD00pUiaubJX2QudImWhh/NAaac9k/3Y/9AyofLji4YUWQAu5gb6aAi2Bap5j8UIroC11AX06CZqACnXk8kttnH4npQ7PjzbAKQ60cJXsIRnU3NXGJ8KQgz5JRnRfQuMsiaJaW97GoL9SIY0HvR+DPgeDnlloNQp9AQqdTIH+RBgSHCM9ydNzUGhu1cNfp//g1Wm7jP8dZn5FWxEjB03vG6f23oPQ9h6Tt6aEtTXlt5+e/uYC9LpFHN8RR97GgQ/zNMdzj8knTDj7JedVPzTUqbrkeGqqTAi5nU9PvAnQSMVj4p2LArtzERxvtybdI86g8pDpjS1p4w9ud+PC+MPXhYDz2nKs1Gej/R4qBdpMV9Ktzpp9GzrC66wh0WLad3qY4Nxh/RFz6xYj3SwOJ62+PA1XO6xnG65WRahfa99idkBS3nL1+2O9GRmz19QG82Wo1RAwDUuN9E/jtqqLEq2HWuWwgSbKS+oeZuTxC9k7qaU08vSFGzbLrptxRh/f6k4U3cYxbhY2hp7ibLk2j+vllsMkZX2C0vwA/HmzwzLCbvbzrsvMYDjYLOf8JoPlts6cwW2iB7HZIRup5a7QkhNyUFBQUFBQ0P/QP1HW3v18qsVlAAAAAElFTkSuQmCC" />
+						<ul id="panelList">
+							<!--li class="add"></li-->							
+							<!--li class="panel" style="background-image:url(./panel01.png);height:90px;"></li-->
+							<li class="panel" style="background-image:url(./panel02.png);height:45px;"></li>
+						</ul>
+					</td>
+					<td class="column">
+						<div class="columndiv" style="height:45px">
+							<div class="columndivtop"></div>
+						</div>
+					</td>
+					<td class="edit">
+						<ul id="deleteList">
+							<!--li style="height:90px">
+								<div class="rotate"></div>
+								<div class="delete"></div>
+							</li-->
+							<li style="height:45px">
+								<!--div class="rotate"></div-->
+								<div class="delete"></div>
+							</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+			<div class="heights">
+				Height:
+				<select id="availableHeights">
+					<option value="10in" selected>10&rdquo;</option>
+					<option value="20in">20&rdquo;</option>
+					<option value="30in">30&rdquo;</option>
+					<option value="40in">40&rdquo;</option>
+					<option value="50in">50&rdquo;</option>
+					<option value="5ft">5&rsquo;</option>
+					<option value="6ft">6&rsquo;</option>
+					<option value="6ft7in">6&rsquo;7&rdquo;</option>
+					<option value="7ft6in">7&rsquo;6&rdquo;</option>
+					<option value="8ft4in">8&rsquo;4&rdquo;</option>
+				</select>
+			</div>
+		</div>
+    </body>
+</html>
